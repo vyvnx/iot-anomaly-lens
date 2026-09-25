@@ -11,8 +11,12 @@ os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
 pygame = pytest.importorskip("pygame")  # optional `viz` group
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from visualizer.__main__ import App  # noqa: E402
 from visualizer.data import make_toy  # noqa: E402
-from visualizer.draw import View  # noqa: E402
+from visualizer.draw import View, grid  # noqa: E402
+from visualizer.scene_ae import AEScene  # noqa: E402
+from visualizer.scene_if import IFScene, forest_score, tree_cuts  # noqa: E402
+from visualizer.scene_svm import SVMScene  # noqa: E402
 
 
 def test_toy_is_deterministic_and_shaped():
@@ -26,10 +30,6 @@ def test_view_roundtrip():
     v = View(pygame.Rect(10, 20, 400, 400))
     x, y = v.to_world(*v.to_screen((1.5, -2.0)))
     assert abs(x - 1.5) < 0.03 and abs(y + 2.0) < 0.03
-
-
-from visualizer.draw import grid  # noqa: E402
-from visualizer.scene_if import IFScene, forest_score, tree_cuts  # noqa: E402
 
 
 def test_forest_score_matches_sklearn():
@@ -55,9 +55,6 @@ def test_if_step_after_done_is_noop():
     assert s.done() and s.caught.sum() >= 4  # the four far attacks at least
 
 
-from visualizer.scene_svm import SVMScene  # noqa: E402
-
-
 def test_svm_final_snapshot_equals_full_fit():
     s = SVMScene(make_toy(0))
     X = grid(20)
@@ -76,9 +73,6 @@ def test_svm_param_change_restarts_training():
     assert s.done() and s.caught.sum() >= 4
 
 
-from visualizer.scene_ae import AEScene  # noqa: E402
-
-
 @pytest.mark.parametrize("seed", range(5))
 def test_ae_learns_for_every_seed(seed):
     s = AEScene(make_toy(seed))
@@ -93,3 +87,32 @@ def test_ae_far_attacks_score_above_threshold():
         s.step()
     far = s.toy.attacks[[k == "far" for k in s.toy.kinds]]
     assert (s.model.anomaly_score(far) > s.thr).all()
+
+
+def key(k):
+    return pygame.event.Event(pygame.KEYDOWN, key=k)
+
+
+def click(x, y):
+    return pygame.event.Event(pygame.MOUSEBUTTONDOWN, pos=(x, y), button=1)
+
+
+@pytest.mark.parametrize("idx", range(3))
+def test_app_drives_each_scene_headless(idx):
+    app, surf = App(), pygame.Surface((1280, 800))
+    app.menu_index = idx
+    app.handle(key(pygame.K_RETURN))
+    for _ in range(30):
+        app.handle(key(pygame.K_RIGHT))
+        app.draw(surf)
+    app.handle(click(5, 5))  # outside the plot
+    app.handle(click(300, 300))  # inside the plot
+    app.handle(pygame.event.Event(pygame.MOUSEMOTION, pos=(300, 300)))
+    app.draw(surf)
+    app.handle(key(pygame.K_r))  # reseed mid-animation
+    assert app.seed == 1
+    app.update(1.0)
+    app.draw(surf)
+    app.handle(key(pygame.K_ESCAPE))
+    app.draw(surf)
+    assert app.scene is None and app.running

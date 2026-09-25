@@ -89,6 +89,17 @@ Saídas sintéticas ficam em `tests/output/` (a configuração recusa misturar p
 em `protocol.json` e faixa **"DADOS SINTÉTICOS"** em relatórios e figuras. Elas verificam o software,
 não a capacidade de detecção no CICIoT2023.
 
+## Visualizador didático
+
+Animações dos três modelos em dados 2D de brinquedo, com os mesmos wrappers (`tc2_iot.models`) e
+hiperparâmetros de `configs/initial.yaml`. Serve para entender os algoritmos; não usa dados do CICIoT2023 e fica
+fora de `src/tc2_iot/` (não altera o `source_tree_sha256` do protocolo).
+
+```bash
+uv sync --group viz
+uv run --group viz python -m visualizer   # menu: Enter abre, Espaço pausa, → avança, R novos dados, Esc volta
+```
+
 ## Códigos de saída
 
 `0` sucesso · `1` `verify-run` com falhas · `2` bloqueado por entrada pendente (mapeamento, allowlist,

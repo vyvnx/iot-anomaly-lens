@@ -21,6 +21,7 @@ tc2-iot = "tc2_iot.cli:main"
 
 [dependency-groups]
 dev = ["pytest"]
+viz = ["pygame"]
 
 [build-system]
 requires = ["hatchling"]

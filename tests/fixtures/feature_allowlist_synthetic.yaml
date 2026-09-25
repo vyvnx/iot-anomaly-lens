@@ -1,0 +1,20 @@
+# allowlist SINTÉTICA para testes
+status: confirmed
+label_column: Classe Sintetica
+features:
+- feat 00
+- feat 01
+- feat 02
+- feat 03
+- feat 04
+- feat 05
+- feat 06
+- feat 07
+- feat 08
+- feat 09
+- feat 10
+- feat 11
+- feat 12
+- feat 13
+- const_col
+

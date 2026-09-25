@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# raw data, processed data, models and run outputs are never versioned
+data/
+runs/
+tests/output/
+*.csv
+*.parquet
+*.joblib
+*.pt
+*.duckdb
+!tests/fixtures/*.csv

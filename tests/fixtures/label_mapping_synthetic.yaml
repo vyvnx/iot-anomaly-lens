@@ -1,0 +1,13 @@
+# mapeamento SINTÉTICO para testes (não é o do CICIoT2023)
+status: confirmed
+source: fixture sintética de testes
+labels:
+  SYN_BenignTraffic: {benign: true, category: null}
+  SYN_DDoS-A: {benign: false, category: DDoS}
+  SYN_DDoS-B: {benign: false, category: DDoS}
+  SYN_DoS-A: {benign: false, category: DoS}
+  SYN_Recon-A: {benign: false, category: Recon}
+  SYN_Web-A: {benign: false, category: Web-based}
+  SYN_BruteForce-A: {benign: false, category: Brute Force}
+  SYN_Spoofing-A: {benign: false, category: Spoofing}
+  SYN_Mirai-A: {benign: false, category: Mirai}

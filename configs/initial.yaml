@@ -1,0 +1,84 @@
+# configuração inicial proposta (seção 15 da especificação). valores numéricos são propostas,
+# não decisões aprovadas pelo orientador. strings "auto" são resolvidas e gravadas em protocol.json.
+project: tc2_iot_anomaly
+experiment_kind: initial
+data_kind: real
+output_dir: runs
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  source_manifest: data/raw_manifest.json
+  label_mapping: configs/label_mapping.yaml
+  feature_allowlist: configs/feature_allowlist.yaml
+  label_column: auto          # detectada na inspeção; defina o nome se houver ambiguidade
+  files: all                  # ou lista explícita de nomes relativos (plano de amostragem)
+  invalid_policy: drop
+  duplicate_policy: unique_feature_vectors
+  conflicting_labels: drop_binary_ambiguous   # política v2, decidida pelo autor em 24/09/2026
+sample:
+  benign_cap: 100000
+  # tetos por estrato somando os dois testes (desenho experimental, não distribuição natural da base)
+  category_caps:
+    DDoS: 24000
+    DoS: 8000
+    Recon: 10000
+    Web-based: 12000
+    Brute Force: 2000
+    Spoofing: 4000
+    Mirai: 6000
+  ambiguous_cap: 2000        # estrato attack_category_ambiguous (ataques com categorias conflitantes)
+  seed: 2026
+  min_attack_per_category_per_test: 100   # decidido pelo autor: piso operacional, não garantia de precisão estatística
+split:
+  mode: random_unique_vectors               # decidido pelo autor em 24/09/2026
+  seed: 2027
+  justification: "A inspeção de 24/09/2026 não encontrou identificadores de captura, dispositivo ou período nos 63 arquivos MERGED_CSV, e os 34 rótulos aparecem em todos os arquivos. Vetores repetidos são identificados pelos atributos selecionados antes da divisão; vetores idênticos não cruzam partições e grupos com rótulos conflitantes são removidos. Os três algoritmos recebem as mesmas partições em cada repetição. A estratégia evita sobreposição exata, mas não comprova independência entre capturas ou dispositivos, nem generalização para outras redes."
+  benign_fractions:
+    train: 0.60
+    validation_fit: 0.10
+    validation_calibration: 0.10
+    test_initial: 0.10
+    test_confirmatory: 0.10
+  attack_fractions:
+    test_initial: 0.50
+    test_confirmatory: 0.50
+preprocessing:
+  drop_train_constants: true
+  scaler: standard
+experiment:
+  model_seeds: [42, 43, 44]
+  target_fpr: 0.01
+  quantile_method: higher
+  decision_operator: greater_than
+  device: cpu
+  threads: auto               # resolve para núcleos físicos
+  confirmatory_evaluation: false
+  calibration_min_warning: 1000
+models:
+  isolation_forest:
+    n_estimators: 200
+    max_samples: 256
+    contamination: auto
+    max_features: 1.0
+    bootstrap: false
+  sgd_one_class_svm:
+    variant: nystroem_rbf
+    components: 256
+    gamma: inverse_feature_count
+    nu: 0.01
+    max_iter: 2000
+    tol: 0.0001
+    average: true
+    shuffle: true
+  autoencoder:
+    hidden_dimensions: [32, 8, 32]
+    batch_size: 256
+    max_epochs: 50
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 5
+    min_delta: 0.00001
+benchmark:
+  warmup_passes: 1
+  repeats: 5
+  inference_batch_size: 4096

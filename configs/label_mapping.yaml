@@ -1,0 +1,119 @@
+# mapeamento exato rótulo -> benignidade/categoria, confirmado pelo autor em 24/09/2026 e validado contra a página oficial (ver validation).
+labels:
+  BACKDOOR_MALWARE:
+    benign: false
+    category: Web-based
+  BENIGN:
+    benign: true
+    category: null
+  BROWSERHIJACKING:
+    benign: false
+    category: Web-based
+  COMMANDINJECTION:
+    benign: false
+    category: Web-based
+  DDOS-ACK_FRAGMENTATION:
+    benign: false
+    category: DDoS
+  DDOS-HTTP_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-ICMP_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-ICMP_FRAGMENTATION:
+    benign: false
+    category: DDoS
+  DDOS-PSHACK_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-RSTFINFLOOD:
+    benign: false
+    category: DDoS
+  DDOS-SLOWLORIS:
+    benign: false
+    category: DDoS
+  DDOS-SYNONYMOUSIP_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-SYN_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-TCP_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-UDP_FLOOD:
+    benign: false
+    category: DDoS
+  DDOS-UDP_FRAGMENTATION:
+    benign: false
+    category: DDoS
+  DICTIONARYBRUTEFORCE:
+    benign: false
+    category: Brute Force
+  DNS_SPOOFING:
+    benign: false
+    category: Spoofing
+  DOS-HTTP_FLOOD:
+    benign: false
+    category: DoS
+  DOS-SYN_FLOOD:
+    benign: false
+    category: DoS
+  DOS-TCP_FLOOD:
+    benign: false
+    category: DoS
+  DOS-UDP_FLOOD:
+    benign: false
+    category: DoS
+  MIRAI-GREETH_FLOOD:
+    benign: false
+    category: Mirai
+  MIRAI-GREIP_FLOOD:
+    benign: false
+    category: Mirai
+  MIRAI-UDPPLAIN:
+    benign: false
+    category: Mirai
+  MITM-ARPSPOOFING:
+    benign: false
+    category: Spoofing
+  RECON-HOSTDISCOVERY:
+    benign: false
+    category: Recon
+  RECON-OSSCAN:
+    benign: false
+    category: Recon
+  RECON-PINGSWEEP:
+    benign: false
+    category: Recon
+  RECON-PORTSCAN:
+    benign: false
+    category: Recon
+  SQLINJECTION:
+    benign: false
+    category: Web-based
+  UPLOADING_ATTACK:
+    benign: false
+    category: Web-based
+  VULNERABILITYSCAN:
+    benign: false
+    category: Recon
+  XSS:
+    benign: false
+    category: Web-based
+source: proposta automática por regras de nome (inspect de 24/09/2026 sobre MERGED_CSV)
+  revisada e confirmada pelo autor em 24/09/2026
+status: confirmed
+validation:
+  checked_at: '2026-09-24'
+  official_source: https://www.unb.ca/cic/datasets/iotdataset-2023.html
+  official_statement: 33 attacks are executed in an IoT topology composed of 105 devices.
+    These attacks are classified into seven categories
+  result: 32 dos 33 rótulos de ataque correspondem um a um à lista oficial por categoria
+    (incluindo VULNERABILITYSCAN em Recon, confirmado pelo autor); BENIGN fica fora
+    das 7 categorias
+  discrepancy: a página oficial lista 11 ataques DDoS (32 no total) e não menciona
+    ICMP fragmentation; os CSVs contêm DDOS-ICMP_FRAGMENTATION, mapeado para DDoS
+    pelo prefixo do próprio rótulo. Divergência registrada, não resolvida pela documentação
+    oficial

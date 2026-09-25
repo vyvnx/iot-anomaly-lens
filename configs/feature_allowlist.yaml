@@ -1,0 +1,50 @@
+# allowlist confirmada pelo autor em 24/09/2026 (38 atributos; IAT excluído do experimento principal).
+status: confirmed
+confirmed_at: '2026-09-24'
+confirmed_by: autor
+label_column: Label
+features:
+- Header_Length
+- Protocol Type
+- Time_To_Live
+- Rate
+- fin_flag_number
+- syn_flag_number
+- rst_flag_number
+- psh_flag_number
+- ack_flag_number
+- ece_flag_number
+- cwr_flag_number
+- ack_count
+- syn_count
+- fin_count
+- rst_count
+- HTTP
+- HTTPS
+- DNS
+- Telnet
+- SMTP
+- SSH
+- IRC
+- TCP
+- UDP
+- DHCP
+- ARP
+- ICMP
+- IGMP
+- IPv
+- LLC
+- Tot sum
+- Min
+- Max
+- AVG
+- Std
+- Tot size
+- Number
+- Variance
+excluded:
+  Label: 'coluna de rótulo: nunca entra em X'
+  IAT: exclusão preventiva diante da suspeita de dependência do processo de captura
+    (decisão conservadora do protocolo, não afirmação de vazamento comprovado; coluna
+    preservada nos dados originais; comparação com/sem IAT prevista como experimento
+    adicional)

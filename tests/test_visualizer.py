@@ -53,3 +53,24 @@ def test_if_step_after_done_is_noop():
         s.step()
     s.step()
     assert s.done() and s.caught.sum() >= 4  # the four far attacks at least
+
+
+from visualizer.scene_svm import SVMScene  # noqa: E402
+
+
+def test_svm_final_snapshot_equals_full_fit():
+    s = SVMScene(make_toy(0))
+    X = grid(20)
+    assert np.allclose(s.snapshot(s.n_iter).anomaly_score(X), s.snapshot(2000).anomaly_score(X))
+
+
+def test_svm_param_change_restarts_training():
+    s = SVMScene(make_toy(0))
+    for _ in range(40):
+        s.step()
+    s.set_params(nu=0.1)
+    assert s.nu == 0.1 and s.epoch == 0 and s.phase == "train" and s.caught is None
+    while not s.done():
+        s.step()
+    s.step()
+    assert s.done() and s.caught.sum() >= 4

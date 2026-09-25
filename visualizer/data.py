@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import NamedTuple
 
 import numpy as np
+import yaml
 
+CONFIG = Path(__file__).resolve().parents[1] / "configs" / "initial.yaml"
 CENTERS = np.array([(-1.2, -0.8), (1.2, 0.9)])
 STD = 0.35
 
@@ -31,3 +34,8 @@ def make_toy(seed: int) -> Toy:
     edge = CENTERS[[0, 1, 1]] + np.array([(-1.1, 0.4), (1.1, -0.3), (0.2, 1.15)])
     attacks = (np.vstack([far, gap, edge]) + rng.normal(0, 0.08, (10, 2))).astype(np.float32)
     return Toy(train, calib, attacks, ["far"] * 4 + ["gap"] * 3 + ["edge"] * 3, seed)
+
+
+def params(model: str) -> dict:
+    """Hyperparameters the thesis uses, from configs/initial.yaml."""
+    return dict(yaml.safe_load(CONFIG.read_text())["models"][model])

@@ -26,3 +26,30 @@ def test_view_roundtrip():
     v = View(pygame.Rect(10, 20, 400, 400))
     x, y = v.to_world(*v.to_screen((1.5, -2.0)))
     assert abs(x - 1.5) < 0.03 and abs(y + 2.0) < 0.03
+
+
+from visualizer.draw import grid  # noqa: E402
+from visualizer.scene_if import IFScene, forest_score, tree_cuts  # noqa: E402
+
+
+def test_forest_score_matches_sklearn():
+    s = IFScene(make_toy(0))
+    X = grid(30)
+    assert np.allclose(forest_score(s.model.model, X, 200), s.model.anomaly_score(X))
+
+
+def test_tree_cuts_are_internal_nodes_inside_their_region():
+    s = IFScene(make_toy(0))
+    est, feats = s.model.model.estimators_[0], s.model.model.estimators_features_[0]
+    cuts = tree_cuts(est, feats)
+    assert len(cuts) == int((est.tree_.children_left != -1).sum())
+    for (x0, y0, x1, y1), f, t, _ in cuts:
+        assert (x0 <= t <= x1) if f == 0 else (y0 <= t <= y1)
+
+
+def test_if_step_after_done_is_noop():
+    s = IFScene(make_toy(0))
+    while not s.done():
+        s.step()
+    s.step()
+    assert s.done() and s.caught.sum() >= 4  # the four far attacks at least

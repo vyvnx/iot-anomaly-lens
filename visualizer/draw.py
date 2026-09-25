@@ -79,6 +79,12 @@ def attacks(surf, view: View, X: np.ndarray, flagged: np.ndarray | None = None) 
             pygame.draw.circle(surf, CAUGHT, (x, y), 10, 2)
 
 
+def caught_line(toy, caught: np.ndarray) -> str:
+    kinds = np.array(toy.kinds)
+    per = ", ".join(f"{k} {int(caught[kinds == k].sum())}/{int((kinds == k).sum())}" for k in ("far", "gap", "edge"))
+    return f"Attacks caught (green ring): {per}."
+
+
 @lru_cache(maxsize=4)
 def font(size: int = 22) -> pygame.font.Font:
     return pygame.font.Font(None, size)

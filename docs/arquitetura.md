@@ -7,7 +7,7 @@
 | RF01 | Inspecionar o ambiente sem coletar hostname, usuário ou caminhos pessoais | `doctor` |
 | RF02 | Importar CSVs locais ou baixar URLs autorizadas, com manifesto SHA-256 | `import-data`, `download` |
 | RF03 | Inferir esquema, rótulos, contagens e qualidade lendo em lotes | `inspect` |
-| RF04 | Remover inválidos, deduplicar globalmente, remover conflitos e amostrar por estrato | `prepare` |
+| RF04 | Remover inválidos, deduplicar globalmente, excluir grupos benigno+ataque, classificar conflitos entre ataques e amostrar por estrato | `prepare` |
 | RF05 | Verificar cobertura das 7 categorias e integridade da amostra | `verify-data` |
 | RF06 | Particionar, ajustar o pré-processamento no treino e congelar hashes | `freeze` |
 | RF07 | Ajustar IF, SGD-OCSVM (Nyström) e AE só com benignos | `train` |
@@ -60,7 +60,7 @@ flowchart LR
 | `data/inspect.py` | staging em Parquet, esquema, rótulos, qualidade, propostas de mapeamento e allowlist |
 | `data/clean.py` | views DuckDB, exclusões, agrupamento de vetores, duplicatas e conflitos |
 | `data/sample.py` | amostragem estratificada e `prepare` |
-| `data/split.py` | alocação por maiores restos, partições, conflitos no espaço efetivo, checagens |
+| `data/split.py` | alocação sistemática por estrato, partições, conflitos no espaço efetivo, checagens |
 | `data/preprocess.py` | constantes do treino + StandardScaler |
 | `models/*.py` | interface comum `fit / anomaly_score / save / load` e os três modelos |
 | `calibration.py`, `evaluation.py`, `benchmark.py` | limiar, métricas, tempos |

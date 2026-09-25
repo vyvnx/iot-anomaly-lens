@@ -2,9 +2,10 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-# raw data, processed data, models and run outputs are never versioned
-data/
-runs/
+# raw data, processed data, models and run outputs are never versioned (anchored at the repo root:
+# an unanchored data/ also hid the source package src/tc2_iot/data/)
+/data/
+/runs/
 tests/output/
 *.csv
 *.parquet

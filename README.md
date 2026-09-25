@@ -4,8 +4,18 @@ Ferramenta experimental de linha de comando que compara **Isolation Forest**, **
 aproximação RBF por Nyström** e **Autoencoder** na detecção binária (0 = benigno, 1 = anômalo) do
 CICIoT2023, com modelos ajustados **somente com tráfego benigno** e limiar calibrado para FPR ≈ 1%.
 
-> Situação em 24/09/2026: software implementado e verificado com **dados sintéticos**. Nenhum CSV do
-> CICIoT2023 foi obtido ou processado ainda. Veja [docs/progress.md](docs/progress.md).
+> Situação em 25/09/2026:
+> - **Histórico sintético:** o software foi desenvolvido e testado primeiro com fixtures sintéticas
+>   (`tests/`). Essas saídas não são resultados do CICIoT2023.
+> - **Preparação real:** os 63 arquivos oficiais `MERGED_CSV` (45.019.234 registros) foram inspecionados e
+>   preparados em 24/09/2026 com a política de conflitos v2. Grupos de vetores idênticos com benigno e
+>   ataque são excluídos por ambiguidade binária; grupos só de ataques são preservados na categoria
+>   conhecida ou, quando as categorias divergem, no estrato `attack_category_ambiguous`.
+> - **Protocolo vigente:** `real-20260925T023443Z-9436f126` (congelado em 25/09/2026): três modelos, sementes 42, 43 e 44, avaliados
+>   **somente em `test_initial`**. O `test_confirmatory` continua reservado e não foi avaliado.
+>
+> Detalhes em [docs/progress.md](docs/progress.md) e [docs/protocolo_e_decisoes.md](docs/protocolo_e_decisoes.md).
+> Os dados, modelos e resultados (`data/`, `runs/`) não são versionados.
 
 ## Documentação
 

@@ -1,9 +1,19 @@
 # Relatório de implementação
 
-Data: 24/09/2026. Todas as execuções abaixo usaram **dados sintéticos**. Nenhum resultado do CICIoT2023
-foi produzido.
+Criado em 24/09/2026, atualizado em 25/09/2026. O documento separa três fases:
 
-## Ambiente utilizado (runs/environment.json)
+- **Histórico sintético (24/09/2026):** desenvolvimento, testes, fumaça e medições de escala com fixtures
+  sintéticas. Os números dessas execuções servem apenas para verificar o software e dimensionar recursos.
+- **Preparação real (24/09/2026):** `inspect`, `prepare` e auditoria de conflitos sobre os 63 arquivos
+  oficiais `MERGED_CSV`. Problemas 8 e 9 abaixo.
+- **Protocolo vigente `real-20260925T023443Z-9436f126` (25/09/2026):** `freeze`, três modelos com as sementes 42, 43 e 44, avaliação
+  **somente em `test_initial`**. O `test_confirmatory` não foi avaliado. O protocolo anterior
+  (`real-20260925T023151Z-5a424935`) foi substituído (problema 9).
+
+Política de conflitos vigente (v2): grupos com benigno e ataque são excluídos por ambiguidade binária; grupos
+só de ataques são preservados na categoria conhecida ou no estrato `attack_category_ambiguous`.
+
+## Ambiente utilizado (`runs/environment.json`; o do protocolo vigente está em `runs/real-20260925T023443Z-9436f126/environment.json`)
 
 Debian 12 no WSL2 (kernel 6.18), Python 3.11.2, AMD Ryzen 7 5800XT (o WSL2 expõe 4 núcleos físicos e
 8 lógicos), 11,7 GiB de RAM, NVIDIA RTX 4060 Ti (8 GiB), não usada: o PyTorch instalado é

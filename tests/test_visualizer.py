@@ -74,3 +74,22 @@ def test_svm_param_change_restarts_training():
         s.step()
     s.step()
     assert s.done() and s.caught.sum() >= 4
+
+
+from visualizer.scene_ae import AEScene  # noqa: E402
+
+
+@pytest.mark.parametrize("seed", range(5))
+def test_ae_learns_for_every_seed(seed):
+    s = AEScene(make_toy(seed))
+    while not s.done():
+        s.step()
+    assert s.losses[-1] < 0.25 * s.losses[0]
+
+
+def test_ae_far_attacks_score_above_threshold():
+    s = AEScene(make_toy(0))
+    while not s.done():
+        s.step()
+    far = s.toy.attacks[[k == "far" for k in s.toy.kinds]]
+    assert (s.model.anomaly_score(far) > s.thr).all()

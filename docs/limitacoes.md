@@ -4,7 +4,11 @@ Válidas para qualquer execução deste protocolo. Os relatórios de cada protoc
 
 1. **Unidade de análise:** vetores de atributos distintos, não a distribuição natural do tráfego. A
    multiplicidade original é preservada em `partitions.parquet`, mas não pondera as métricas.
-2. **Remoção de conflitos:** grupos com rótulos originais conflitantes são removidos inteiros, o que
+2. **Conflitos de rótulo (política v2):** grupos de vetores idênticos com benigno e ataque são excluídos por
+   ambiguidade binária na representação adotada. Podem ser justamente as observações mais difíceis de
+   distinguir, o que pode enviesar as métricas. Grupos só de ataques são mantidos: na categoria, quando ela
+   é única, ou no estrato `attack_category_ambiguous`, que não é uma 8ª categoria. A política v1, que
+   removia todo grupo conflitante, não foi usada em protocolo congelado. A exclusão
    altera a distribuição (impacto em `data_quality.json`).
 3. **Independência:** a partição aleatória de vetores distintos não comprova independência temporal,
    por dispositivo ou entre observações relacionadas. Não há teste em dispositivos inéditos.

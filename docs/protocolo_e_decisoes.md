@@ -1,5 +1,9 @@
 # Protocolo resolvido, quantidades e decisões pendentes
 
+> **Leitura:** as seções 1 a 4 registram a proposta inicial (24/09/2026), antes dos dados reais. Algumas
+> regras foram substituídas pelas decisões das seções 5 a 7: política de conflitos v2, amostragem por
+> categoria e partição sistemática. A execução vigente é o protocolo `real-20260925T023443Z-9436f126`.
+
 Estado em 24/09/2026. Nenhum CSV real foi inspecionado; quantidades são **limites da configuração**,
 não contagens obtidas. Valores numéricos são propostas da especificação, não decisões do orientador.
 
